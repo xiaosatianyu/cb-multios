@@ -195,18 +195,35 @@ if(LINUX)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -z execstack -z norelro")
 endif()
 
-file(GLOB challenge_binaries challenges/*)
-foreach(cb_path ${challenge_binaries})
-    if(IS_DIRECTORY ${cb_path} AND EXISTS ${cb_path}/CMakeLists.txt)
-        # Get filename
-        get_filename_component(cb_id ${cb_path} NAME)
+#file(GLOB challenge_binaries challenges/*)
+#foreach(cb_path ${challenge_binaries})
+    #if(IS_DIRECTORY ${cb_path} AND EXISTS ${cb_path}/CMakeLists.txt)
+        ## Get filename
+        #get_filename_component(cb_id ${cb_path} NAME)
 
-        # Skip the challenge if it's in the exclude list
-        list(FIND cb_exclude ${cb_id} idx)
-        if(${idx} EQUAL -1)
-            add_subdirectory(${cb_path})
-        else()
-            message("EXCLUDE: ${cb_id}")
-        endif()
-    endif()
-endforeach()
+        ## Skip the challenge if it's in the exclude list
+        #list(FIND cb_exclude ${cb_id} idx)
+        #if(${idx} EQUAL -1)
+            #add_subdirectory(${cb_path})
+        #else()
+            #message("EXCLUDE: ${cb_id}")
+        #endif()
+    #endif()
+#endforeach()
+
+file(GLOB challenge_binaries challenges/*)
+set(cb_path  "/home/xiaosatianyu/workspace/git/fuzz/cb-multios/challenges/3D_Image_Toolkit")
+if(IS_DIRECTORY ${cb_path} AND EXISTS ${cb_path}/CMakeLists.txt)
+	# Get filename
+	get_filename_component(cb_id ${cb_path} NAME)
+
+	# Skip the challenge if it's in the exclude list
+	list(FIND cb_exclude ${cb_id} idx)
+	if(${idx} EQUAL -1)
+		add_subdirectory(${cb_path})
+	else()
+		message("EXCLUDE: ${cb_id}")
+	endif()
+endif()
+
+
