@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.1)
 project(challenge_sets)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+#for aflgo
+
+
 # Needed for newer challenges
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 11)
@@ -59,6 +62,12 @@ else(WIN32)
         -g3
         -m32
     )
+    
+    #foraflgo
+    
+    #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -targets=/home/xiaosatianyu/infomation/git-2/For_aflgo/temp/BBtargets.txt -outdir=/home/xiaosatianyu/infomation/git-2/For_aflgo/temp -flto -fuse-ld=gold -Wl,-plugin-opt=save-temps") 
+    #set(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS} -targets=/home/xiaosatianyu/infomation/git-2/For_aflgo/temp/BBtargets.txt -outdir=/home/xiaosatianyu/infomation/git-2/For_aflgo/temp -flto -fuse-ld=gold -Wl,-plugin-opt=save-temps") 
+    
 
     # Link everything 32-bit (until we have a 64-bit option)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -m32")
@@ -88,7 +97,7 @@ function(build path target)
     set(cb_all_src ${cb_lib} ${cb_src} ${cb_inc})
 
     add_executable(${target} ${cb_all_src})
-    add_executable(${target}_patched ${cb_all_src})
+    add_executable(${target}_patched ${cb_all_src}) #编译pathced的程序
 
     target_include_directories(${target} PUBLIC ${path}/lib ${path}/src ${path}/include)
     target_include_directories(${target}_patched PUBLIC ${path}/lib ${path}/src ${path}/include)
@@ -101,7 +110,7 @@ function(build path target)
                           RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_BINARY_DIR})
 
     # Add patched defines
-    target_compile_definitions(${target}_patched PUBLIC ${patch_defs})
+    target_compile_definitions(${target}_patched PUBLIC ${patch_defs}) #pathced程序添加参数
 
     target_link_libraries(${target} LINK_PUBLIC cgc)
     target_link_libraries(${target}_patched LINK_PUBLIC cgc)
@@ -161,22 +170,22 @@ function(buildCB)
         # Iterate through the directories and build each
         set(i 1)
         foreach(cb ${cb_parts})
-            build(${cb_path}/cb_${i} ${cb_id}_${i})
+            build(${cb_path}/cb_${i} ${cb_id}_${i}) #编译多个cb
             MATH(EXPR i "${i} + 1")
         endforeach()
     else()
         # Build normally if there are no extra directories
-        build(${cb_path} ${cb_id})
+        build(${cb_path} ${cb_id})  #编译一个cb
     endif()
-
-    file(GLOB cb_povs "${cb_path}/pov_*")
-    if(cb_povs)
-        foreach(path ${cb_povs})
-            # Get the pov name, i.e. "pov_1"
-            get_filename_component(pov ${path} NAME)
-            buildPOV(${cb_path} ${cb_id} ${pov})
-        endforeach()
-    endif()
+	#生成POV
+    #file(GLOB cb_povs "${cb_path}/pov_*")
+    #if(cb_povs)
+        #foreach(path ${cb_povs})
+            ## Get the pov name, i.e. "pov_1"
+            #get_filename_component(pov ${path} NAME)
+            #buildPOV(${cb_path} ${cb_id} ${pov})
+        #endforeach()
+    #endif()
 endfunction(buildCB)
 
 # More options needed for cbs
@@ -195,35 +204,35 @@ if(LINUX)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -z execstack -z norelro")
 endif()
 
-#file(GLOB challenge_binaries challenges/*)
-#foreach(cb_path ${challenge_binaries})
-    #if(IS_DIRECTORY ${cb_path} AND EXISTS ${cb_path}/CMakeLists.txt)
-        ## Get filename
-        #get_filename_component(cb_id ${cb_path} NAME)
-
-        ## Skip the challenge if it's in the exclude list
-        #list(FIND cb_exclude ${cb_id} idx)
-        #if(${idx} EQUAL -1)
-            #add_subdirectory(${cb_path})
-        #else()
-            #message("EXCLUDE: ${cb_id}")
-        #endif()
-    #endif()
-#endforeach()
-
 file(GLOB challenge_binaries challenges/*)
-set(cb_path  "/home/xiaosatianyu/workspace/git/fuzz/cb-multios/challenges/3D_Image_Toolkit")
-if(IS_DIRECTORY ${cb_path} AND EXISTS ${cb_path}/CMakeLists.txt)
-	# Get filename
-	get_filename_component(cb_id ${cb_path} NAME)
+foreach(cb_path ${challenge_binaries})
+    if(IS_DIRECTORY ${cb_path} AND EXISTS ${cb_path}/CMakeLists.txt)
+        # Get filename
+        get_filename_component(cb_id ${cb_path} NAME)
 
-	# Skip the challenge if it's in the exclude list
-	list(FIND cb_exclude ${cb_id} idx)
-	if(${idx} EQUAL -1)
-		add_subdirectory(${cb_path})
-	else()
-		message("EXCLUDE: ${cb_id}")
-	endif()
-endif()
+        # Skip the challenge if it's in the exclude list
+        list(FIND cb_exclude ${cb_id} idx)
+        if(${idx} EQUAL -1)
+            add_subdirectory(${cb_path})
+        else()
+            message("EXCLUDE: ${cb_id}")
+        endif()
+    endif()
+endforeach()
+
+#file(GLOB challenge_binaries challenges/*)
+#set(cb_path  "/home/xiaosatianyu/workspace/git/fuzz/cb-multios/challenges/3D_Image_Toolkit")
+#if(IS_DIRECTORY ${cb_path} AND EXISTS ${cb_path}/CMakeLists.txt)
+	## Get filename
+	#get_filename_component(cb_id ${cb_path} NAME)
+
+	## Skip the challenge if it's in the exclude list
+	#list(FIND cb_exclude ${cb_id} idx)
+	#if(${idx} EQUAL -1)
+		#add_subdirectory(${cb_path})
+	#else()
+		#message("EXCLUDE: ${cb_id}")
+	#endif()
+#endif()
 
 
