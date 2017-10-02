@@ -23,11 +23,16 @@ CMAKE_OPTS="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 
 # Honor CC and CXX environment variables, default to clang otherwise
 #如果没有定义,就为clang
-CC=${CC:-clang}
-CXX=${CXX:-clang++}
 
-#CC="/home/xiaosatianyu/infomation/git-2/For_aflgo/aflgo/afl-clang-fast"
-#CXX="/home/xiaosatianyu/infomation/git-2/For_aflgo/aflgo/afl-clang-fast++"
+if [ "$1" == "aflgo" ]; then
+	CC=${CC:-clang}
+	CXX=${CXX:-clang++}
+	echo "clang"
+else
+	CC="/home/xiaosatianyu/infomation/git-2/For_aflgo/aflgo/afl-clang-fast"
+	CXX="/home/xiaosatianyu/infomation/git-2/For_aflgo/aflgo/afl-clang-fast++"
+	echo "aflgo"
+fi
 
 
 #添加编译信息,通过 -D

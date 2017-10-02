@@ -1,5 +1,12 @@
+#coding=utf-8
+
 import os
 import shutil
+
+#目的:
+#将子目录下的执行程序复制到一个共同的目录下 
+
+
 #----------------------------------------------------------------------
 def move_binary(source_sub_dir,target_dir):
     """
