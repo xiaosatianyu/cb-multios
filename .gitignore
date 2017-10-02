@@ -254,4 +254,6 @@ test.cpp
 challenges/*/bin
 challenges/*/pov
 
-binary-clang
+#add yyy
+binary-clang/
+build/
