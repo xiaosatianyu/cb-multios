@@ -4,8 +4,6 @@ cmake_minimum_required(VERSION 3.1)
 project(challenge_sets)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-#for aflgo
-
 
 # Needed for newer challenges
 set(CMAKE_C_STANDARD 99)

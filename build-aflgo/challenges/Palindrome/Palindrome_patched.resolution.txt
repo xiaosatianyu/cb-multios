@@ -1,0 +1,15 @@
+CMakeFiles/Palindrome_patched.dir/lib/libc.c.o
+-r=CMakeFiles/Palindrome_patched.dir/lib/libc.c.o,cgc_transmit_all,plx
+-r=CMakeFiles/Palindrome_patched.dir/lib/libc.c.o,cgc_transmit,
+-r=CMakeFiles/Palindrome_patched.dir/lib/libc.c.o,cgc_receive_delim,plx
+-r=CMakeFiles/Palindrome_patched.dir/lib/libc.c.o,cgc_receive,
+-r=CMakeFiles/Palindrome_patched.dir/lib/libc.c.o,__afl_area_ptr,l
+-r=CMakeFiles/Palindrome_patched.dir/lib/libc.c.o,__afl_prev_loc,l
+CMakeFiles/Palindrome_patched.dir/src/service.c.o
+-r=CMakeFiles/Palindrome_patched.dir/src/service.c.o,main,plx
+-r=CMakeFiles/Palindrome_patched.dir/src/service.c.o,cgc_transmit_all,l
+-r=CMakeFiles/Palindrome_patched.dir/src/service.c.o,cgc__terminate,
+-r=CMakeFiles/Palindrome_patched.dir/src/service.c.o,cgc_check,plx
+-r=CMakeFiles/Palindrome_patched.dir/src/service.c.o,cgc_receive_delim,l
+-r=CMakeFiles/Palindrome_patched.dir/src/service.c.o,__afl_area_ptr,l
+-r=CMakeFiles/Palindrome_patched.dir/src/service.c.o,__afl_prev_loc,l

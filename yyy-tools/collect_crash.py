@@ -27,12 +27,12 @@ class Collect():
     """"""
 
     #----------------------------------------------------------------------
-    def __init__(self,crash_source_dir,crash_dir,binary_path):
+    def __init__(self,crash_source_dir,output_dir,binary_path):
         """Constructor"""
         self.crash_source_dir=crash_source_dir
-        self.crash_dir=crash_dir
+        self.out_put_dir=output_dir
         self.binary_path=binary_path
-        self.set_config(self.crash_source_dir, self.crash_dir,self.binary_path)
+        self.set_config(self.crash_source_dir, self.out_put_dir,self.binary_path)
         
     
     ##各种函数------------------------------------------------------------------------------
@@ -128,9 +128,9 @@ class Collect():
     
     
     def filter_out(self,subdir,tc_path):
-	cur_signal,crash_address=self.run(tc_path)
         tc=os.path.basename(tc_path)
-        self.binary_crash_dir=os.path.join(self.crash_dir,self.binary)
+        self.binary_crash_dir=os.path.join(self.out_put_dir,self.binary)
+	cur_signal,crash_address=self.run(tc_path)
         if cur_signal == '0':
             return #表示没有崩溃
         
@@ -220,18 +220,20 @@ class Collect():
                 self.filter_out(subdir,tc_path)
         
         #save the json
-        with open(self.json_path,"wt") as f:
-            #f.write(json.dumps(information_dict))
-            json.dump(self.info_dict,f) #ok
+	if len(self.info_dict["Crashes"])>0:
+	    with open(self.json_path,"wt") as f:
+		#f.write(json.dumps(information_dict))
+		json.dump(self.info_dict,f) #ok
             
         #save the crash点
-        with open(self.crash_address_path,"wt") as f:
-            for address in self.crash_block_set:
-                f.write(address)
-                f.write('\n')
+	if len(self.crash_block_set) >0:
+	    with open(self.crash_address_path,"wt") as f:
+		for address in self.crash_block_set:
+		    f.write(address)
+		    f.write('\n')
             
     #----------------------------------------------------------------------
-    def set_config(self,crash_source_dir,crash_dir,binary_path):
+    def set_config(self,crash_source_dir,output_dir,binary_path):
         ''' 
         listen for new inputs produced by driller
         :param crash_source_dir: directory to places new inputs
@@ -243,22 +245,22 @@ class Collect():
         if not os.path.exists(crash_source_dir):
             l.error("not source dir")
         #arg2
-        #总的目录
-        if not os.path.exists(crash_dir):
-            os.mkdir(crash_dir)
-        print ("crash_dir is %s" % crash_dir)
+        #output目录
+        if not os.path.exists(output_dir):
+            os.mkdir(output_dir)
+        print ("crash_dir is %s" % output_dir)
         #arg3
         self.binary=os.path.basename(binary_path).strip()
         
         #the target to copy
-        crash_binary=os.path.join(crash_dir,self.binary) 
+        crash_binary=os.path.join(output_dir,self.binary) 
         print   ("crash_binary is %s" % crash_binary)
-        if not os.path.exists(crash_binary):
-            os.mkdir(crash_binary)
+        #if not os.path.exists(crash_binary):
+            #os.mkdir(crash_binary)
         
         #从对应的json读取信息, 用来保存每个cb的crash信息
         self.info_dict=dict()
-        self.json_path=os.path.join(crash_dir ,self.binary+'.json') #每个目标程序下
+        self.json_path=os.path.join(output_dir ,self.binary+'.json') #每个目标程序下
         #如果有,则从原来的json中读取
         try:
             if os.path.exists(self.json_path):
@@ -332,7 +334,7 @@ if __name__ == '__main__':
     print("start to collect crash")
     
     # the way to save the crash
-    crash_dir="/home/xiaosatianyu/Desktop/driller-desk/CRASH"
+    output_dir="/home/xiaosatianyu/Desktop/driller-desk/CRASH"
     
 
     # go through all the 
@@ -343,7 +345,7 @@ if __name__ == '__main__':
 	bianry_path=os.path.join(binary_dir,binary)
 	sub_crash_dir=os.path.join(afl_out_dir,binary,"sync")
 
-	collect=Collect(sub_crash_dir, crash_dir, bianry_path)
+	collect=Collect(sub_crash_dir, output_dir, bianry_path)
 	collect.get_crashes()	
 	
    

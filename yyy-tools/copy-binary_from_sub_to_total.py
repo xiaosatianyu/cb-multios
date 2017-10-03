@@ -31,9 +31,21 @@ def move_binary(source_sub_dir,target_dir):
 
 if __name__ == '__main__':
     print("start")
+	
+	#for the clang output bianry
     # each sub direcotry
     source_sub_dir="/home/xiaosatianyu/workspace/git/fuzz/cb-multios/build/challenges"
     # targe total directory
     target_dir="/home/xiaosatianyu/workspace/git/fuzz/cb-multios/binary-clang"
-    move_binary(source_sub_dir,target_dir)
+    if os.path.exists(source_sub_dir):
+	move_binary(source_sub_dir,target_dir)
+
+    #for the aflgo output binary
+    source_sub_dir="/home/xiaosatianyu/workspace/git/fuzz/cb-multios/build-aflgo/challenges"
+    # targe total directory
+    target_dir="/home/xiaosatianyu/workspace/git/fuzz/cb-multios/binary-afl-clang-no-instrument"
+    if os.path.exists(source_sub_dir):
+	move_binary(source_sub_dir,target_dir)  
+
+
     print("successs")

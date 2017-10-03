@@ -1,4 +1,6 @@
 set( SERVICE_ID "00001" )
 set( AUTHOR_ID "CADET" )
 add_compile_options( -O0 -g )
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -targets=/home/xiaosatianyu/workspace/git/fuzz/cb-multios/crash/Palindrome/BBtargets.txt  -outdir=/home/xiaosatianyu/workspace/git/fuzz/cb-multios/output/Palindrome -flto -fuse-ld=gold -Wl,-plugin-opt=save-temps")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -targets=/home/xiaosatianyu/workspace/git/fuzz/cb-multios/crash/Palindrome/BBtargets.txt  -outdir=/home/xiaosatianyu/workspace/git/fuzz/cb-multios/output/Palindrome -flto -fuse-ld=gold -Wl,-plugin-opt=save-temps")
 buildCB()

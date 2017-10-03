@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 set -e
 
 # Root cb-multios directory
@@ -14,8 +15,13 @@ if ! /usr/bin/env python -c "import xlsxwriter; import Crypto" 2>/dev/null; then
 fi
 
 echo "Creating build directory"
-mkdir -p ${DIR}/build
-cd ${DIR}/build
+if [ "$1" == "aflgo" ]; then
+	mkdir -p ${DIR}/build-aflgo
+	cd ${DIR}/build-aflgo
+else
+	mkdir -p ${DIR}/build
+	cd ${DIR}/build
+fi
 
 echo "Creating Makefiles"
 #表示导出编译flag CMake会把当前的编译flag全部导出到一个json数据库, 在当前目录下(build目录)的compile_commands.json
@@ -25,14 +31,15 @@ CMAKE_OPTS="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 #如果没有定义,就为clang
 
 if [ "$1" == "aflgo" ]; then
-	CC=${CC:-clang}
-	CXX=${CXX:-clang++}
-	echo "clang"
-else
 	CC="/home/xiaosatianyu/infomation/git-2/For_aflgo/aflgo/afl-clang-fast"
 	CXX="/home/xiaosatianyu/infomation/git-2/For_aflgo/aflgo/afl-clang-fast++"
 	echo "aflgo"
+else
+	CC=${CC:-clang}
+	CXX=${CXX:-clang++}
+	echo "clang"
 fi
+
 
 
 #添加编译信息,通过 -D

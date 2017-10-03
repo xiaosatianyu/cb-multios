@@ -257,3 +257,4 @@ challenges/*/pov
 #add yyy
 binary-clang/
 build/
+output/
