@@ -41,7 +41,7 @@ static int handle_result()
             break;
     }
     if (n == sizeof(tmp))
-        return sink_error("result ... ");
+        return cgc_sink_error("result ... ");
 
     /* sink until EOL */
     while (tmp[n] != '\n')
@@ -85,7 +85,7 @@ static int handle_sd()
             break;
     }
     if (n == sizeof(tmp))
-        return sink_error("sd ... ");
+        return cgc_sink_error("sd ... ");
 
     cgc_engine_set_depth(cgc_strtol(tmp, 0, 10));
     return 1;

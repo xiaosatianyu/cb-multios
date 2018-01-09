@@ -2,6 +2,11 @@
 
 set -e
 
+export SPLIT_SWITCHES=1
+export TRANSFORM_COMPARES=1
+export SPLIT_COMPARES=1
+export STRCPY_EXPAND=1
+
 # Root cb-multios directory
 DIR=$(cd "$(dirname ${BASH_SOURCE[0]})" && pwd)
 TOOLS="$DIR/tools"
@@ -21,8 +26,8 @@ echo "Creating Makefiles"
 CMAKE_OPTS="-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
 
 # Honor CC and CXX environment variables, default to clang otherwise
-CC=${CC:-clang}
-CXX=${CXX:-clang++}
+CC=/home/binzhang/git/afl-nb/afl-clang-fast
+CXX=/home/binzhang/git/afl-nb/afl-clang-fast++
 
 CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_C_COMPILER=$CC"
 CMAKE_OPTS="$CMAKE_OPTS -DCMAKE_ASM_COMPILER=$CC"
